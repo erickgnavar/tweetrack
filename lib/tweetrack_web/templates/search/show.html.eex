@@ -1,0 +1,23 @@
+<h2>Show Search</h2>
+
+<ul>
+
+  <li>
+    <strong>Keyword:</strong>
+    <%= @search.keyword %>
+  </li>
+
+  <li>
+    <strong>Status:</strong>
+    <%= @search.status %>
+  </li>
+
+  <li>
+    <strong>Pid:</strong>
+    <%= @search.pid %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: search_path(@conn, :edit, @search) %></span>
+<span><%= link "Back", to: search_path(@conn, :index) %></span>
