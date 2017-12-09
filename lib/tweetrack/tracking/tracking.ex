@@ -102,4 +102,31 @@ defmodule Tweetrack.Tracking do
   def change_search(%Search{} = search) do
     Search.changeset(search, %{})
   end
+
+  @doc """
+  Start a process to read twitter stream api
+  """
+  def start_feed(%Search{} = search) do
+    pid = Tweetrack.Twitter.start_stream(search.keyword)
+    attrs = %{
+      :status => "RUNNING",
+      :pid => pid |> :erlang.pid_to_list |> to_string,
+      :started_at => DateTime.utc_now |> DateTime.to_string
+    }
+    update_search(search, attrs)
+  end
+
+  def finish_feed(%Search{} = search) do
+    pid = search.pid |> to_charlist |> :erlang.list_to_pid
+    if Process.alive? pid do
+      Process.exit pid, :kill
+    end
+    attrs = %{
+      :status => "FINISHED",
+      :pid => nil,
+      :finished_at => DateTime.utc_now |> DateTime.to_string
+    }
+    update_search(search, attrs)
+  end
+
 end

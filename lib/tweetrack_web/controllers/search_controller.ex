@@ -57,4 +57,20 @@ defmodule TweetrackWeb.SearchController do
     |> put_flash(:info, "Search deleted successfully.")
     |> redirect(to: search_path(conn, :index))
   end
+
+  def start(conn, %{"id" => id}) do
+    search = Tracking.get_search!(id)
+    Tracking.start_feed(search)
+    conn
+    |> put_flash(:info, "Search started")
+    |> redirect(to: search_path(conn, :show, search))
+  end
+
+  def finish(conn, %{"id" => id}) do
+    search = Tracking.get_search!(id)
+    Tracking.finish_feed(search)
+    conn
+    |> put_flash(:info, "Search finished")
+    |> redirect(to: search_path(conn, :show, search))
+  end
 end

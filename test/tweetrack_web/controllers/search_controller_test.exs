@@ -3,7 +3,7 @@ defmodule TweetrackWeb.SearchControllerTest do
 
   alias Tweetrack.Tracking
 
-  @create_attrs %{keyword: "some keyword"}
+  @create_attrs %{keyword: "some keyword", pid: "<0.1000.0>"}
   @update_attrs %{keyword: "some updated keyword", pid: "some updated pid", status: "some updated status"}
   @invalid_attrs %{keyword: nil, pid: nil, status: nil}
 
@@ -78,6 +78,20 @@ defmodule TweetrackWeb.SearchControllerTest do
       assert_error_sent 404, fn ->
         get conn, search_path(conn, :show, search)
       end
+    end
+  end
+
+  describe "Feed stream" do
+    setup [:create_search]
+
+    test "start stream feed", %{conn: conn, search: search} do
+      conn = get conn, search_path(conn, :start, search)
+      assert redirected_to(conn) == search_path(conn, :show, search)
+    end
+
+    test "finish stream feed", %{conn: conn, search: search} do
+      conn = get conn, search_path(conn, :finish, search)
+      assert redirected_to(conn) == search_path(conn, :show, search)
     end
   end
 

@@ -64,5 +64,22 @@ defmodule Tweetrack.TrackingTest do
       search = search_fixture()
       assert %Ecto.Changeset{} = Tracking.change_search(search)
     end
+
+    test "start_feed/1" do
+      search = search_fixture()
+      assert {:ok, search} = Tracking.start_feed(search)
+      assert %Search{} = search
+      assert String.length(search.pid) > 0
+      assert search.status == "RUNNING"
+    end
+
+    test "finish_feed/1" do
+      search = search_fixture()
+      search = search |> Map.put(:pid, "<0.1000.0>")
+      assert {:ok, search} = Tracking.finish_feed(search)
+      assert %Search{} = search
+      assert search.pid == nil
+      assert search.status == "FINISHED"
+    end
   end
 end

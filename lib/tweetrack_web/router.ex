@@ -18,6 +18,8 @@ defmodule TweetrackWeb.Router do
 
     get "/", PageController, :index
     resources "/searches", SearchController
+    get "/searches/:id/start", SearchController, :start
+    get "/searches/:id/finish", SearchController, :finish
   end
 
   # Other scopes may use custom stacks.

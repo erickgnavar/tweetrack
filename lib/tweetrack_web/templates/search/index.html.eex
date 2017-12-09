@@ -5,7 +5,8 @@
     <tr>
       <th>Keyword</th>
       <th>Status</th>
-      <th>Pid</th>
+      <th>Started at</th>
+      <th>Finished at</th>
 
       <th></th>
     </tr>
@@ -15,12 +16,21 @@
     <tr>
       <td><%= search.keyword %></td>
       <td><%= search.status %></td>
-      <td><%= search.pid %></td>
+      <td><%= search.started_at %></td>
+      <td><%= search.finished_at %></td>
 
       <td class="text-right">
-        <span><%= link "Show", to: search_path(@conn, :show, search), class: "btn btn-default btn-xs" %></span>
-        <span><%= link "Edit", to: search_path(@conn, :edit, search), class: "btn btn-default btn-xs" %></span>
-        <span><%= link "Delete", to: search_path(@conn, :delete, search), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+        <div class="btn-group">
+          <%= link "Show", to: search_path(@conn, :show, search), class: "btn btn-default btn-xs" %>
+          <%= link "Edit", to: search_path(@conn, :edit, search), class: "btn btn-default btn-xs" %>
+          <%= link "Delete", to: search_path(@conn, :delete, search), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+          <%= if search.status == "PENDING" do %>
+          <%= link "Start", to: search_path(@conn, :start, search), class: "btn btn-default btn-xs" %>
+          <% end %>
+          <%= if search.status == "RUNNING" do %>
+          <%= link "Finish", to: search_path(@conn, :finish, search), class: "btn btn-default btn-xs" %>
+          <% end %>
+        </div>
       </td>
     </tr>
 <% end %>
