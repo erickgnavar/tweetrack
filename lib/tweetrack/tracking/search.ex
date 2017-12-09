@@ -16,6 +16,6 @@ defmodule Tweetrack.Tracking.Search do
   def changeset(%Search{} = search, attrs) do
     search
     |> cast(attrs, [:keyword, :status, :pid])
-    |> validate_required([:keyword, :status, :pid])
+    |> validate_required([:keyword])
   end
 end

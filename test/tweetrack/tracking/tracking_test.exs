@@ -6,7 +6,7 @@ defmodule Tweetrack.TrackingTest do
   describe "searches" do
     alias Tweetrack.Tracking.Search
 
-    @valid_attrs %{keyword: "some keyword", pid: "some pid", status: "some status"}
+    @valid_attrs %{keyword: "some keyword"}
     @update_attrs %{keyword: "some updated keyword", pid: "some updated pid", status: "some updated status"}
     @invalid_attrs %{keyword: nil, pid: nil, status: nil}
 
@@ -32,8 +32,7 @@ defmodule Tweetrack.TrackingTest do
     test "create_search/1 with valid data creates a search" do
       assert {:ok, %Search{} = search} = Tracking.create_search(@valid_attrs)
       assert search.keyword == "some keyword"
-      assert search.pid == "some pid"
-      assert search.status == "some status"
+      assert search.status == "PENDING"
     end
 
     test "create_search/1 with invalid data returns error changeset" do

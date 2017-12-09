@@ -3,7 +3,7 @@ defmodule TweetrackWeb.SearchControllerTest do
 
   alias Tweetrack.Tracking
 
-  @create_attrs %{keyword: "some keyword", pid: "some pid", status: "some status"}
+  @create_attrs %{keyword: "some keyword"}
   @update_attrs %{keyword: "some updated keyword", pid: "some updated pid", status: "some updated status"}
   @invalid_attrs %{keyword: nil, pid: nil, status: nil}
 

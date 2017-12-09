@@ -52,6 +52,7 @@ defmodule Tweetrack.Tracking do
   def create_search(attrs \\ %{}) do
     %Search{}
     |> Search.changeset(attrs)
+    |> Ecto.Changeset.put_change(:status, "PENDING")
     |> Repo.insert()
   end
 
