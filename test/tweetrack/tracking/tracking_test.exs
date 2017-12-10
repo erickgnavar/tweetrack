@@ -4,14 +4,11 @@ defmodule Tweetrack.TrackingTest do
   alias Tweetrack.Tracking
 
   describe "searches" do
-    alias Tweetrack.Tracking.{Search, Tweet}
+    alias Tweetrack.Tracking.Search
 
     @valid_attrs %{keyword: "some keyword"}
     @update_attrs %{keyword: "some updated keyword", pid: "some updated pid", status: "some updated status"}
     @invalid_attrs %{keyword: nil, pid: nil, status: nil}
-
-    @tweet_valid_attrs %{name: "some name", handle: "somehandle", profile_image_url: "https://t.co", text: "test", tweeted_at: "2017-12-10 20:00:50.017816Z"}
-    @tweet_invalid_attrs %{name: "some name"}
 
     def search_fixture(attrs \\ %{}) do
       {:ok, search} =
@@ -84,10 +81,17 @@ defmodule Tweetrack.TrackingTest do
       assert search.pid == nil
       assert search.status == "FINISHED"
     end
+  end
+
+  describe "tweet" do
+    alias Tweetrack.Tracking.Tweet
+
+    @valid_attrs %{name: "some name", handle: "somehandle", profile_image_url: "https://t.co", text: "test", tweeted_at: "2017-12-10 20:00:50.017816Z"}
+    @invalid_attrs %{name: "some name"}
 
     test "create_tweet/1 with valid data creates a search" do
       search = search_fixture()
-      attrs = @tweet_valid_attrs |> Map.put(:search_id, search.id)
+      attrs = @valid_attrs |> Map.put(:search_id, search.id)
       assert {:ok, %Tweet{} = tweet} = Tracking.create_tweet(attrs)
       assert tweet.name == "some name"
       assert tweet.handle == "somehandle"
@@ -95,7 +99,33 @@ defmodule Tweetrack.TrackingTest do
     end
 
     test "create_create_tweet/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Tracking.create_tweet(@tweet_invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Tracking.create_tweet(@invalid_attrs)
+    end
+
+    def tweet_fixture(attrs \\ %{}) do
+      search = search_fixture()
+      {:ok, tweet} =
+        attrs
+        |> Enum.into(@valid_attrs |> Map.put(:search_id, search.id))
+        |> Tracking.create_tweet()
+
+      tweet
+    end
+
+    test "list_tweet/0 returns all tweet" do
+      tweet = tweet_fixture()
+      assert Tracking.list_tweet() == [tweet]
+    end
+
+    test "list_tweet/1 returns all tweet given a search_id" do
+      tweet = tweet_fixture()
+      assert Tracking.list_tweet(search_id: tweet.search_id) == [tweet]
+    end
+
+    test "get_tweet!/1 returns the tweet with given id" do
+      tweet = tweet_fixture()
+      assert Tracking.get_tweet!(tweet.id) == tweet
     end
   end
+
 end

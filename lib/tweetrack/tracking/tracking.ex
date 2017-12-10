@@ -129,7 +129,49 @@ defmodule Tweetrack.Tracking do
     update_search(search, attrs)
   end
 
-  @doc false
+  @doc """
+  Returns the list of tweet.
+
+  ## Examples
+
+      iex> list_tweet()
+      [%Tweet{}, ...]
+
+  """
+  def list_tweet(where_args \\ []) do
+    Tweet
+    |> where(^where_args)
+    |> Repo.all
+  end
+
+  @doc """
+  Gets a single tweet.
+
+  Raises `Ecto.NoResultsError` if the Tweet does not exist.
+
+  ## Examples
+
+      iex> get_tweet!(123)
+      %Tweet{}
+
+      iex> get_tweet!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_tweet!(id), do: Repo.get!(Tweet, id)
+
+  @doc """
+  Creates a tweet.
+
+  ## Examples
+
+      iex> create_tweet(%{field: value})
+      {:ok, %Tweet{}}
+
+      iex> create_tweet(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
   def create_tweet(attrs \\ %{}) do
     %Tweet{}
     |> Tweet.changeset(attrs)

@@ -22,6 +22,15 @@ defmodule TweetrackWeb.Router do
     get "/searches/:id/finish", SearchController, :finish
   end
 
+  scope "/api/v1", TweetrackWeb do
+    pipe_through :api
+
+    get "/tweets", TweetController, :index
+    get "/tweets/:id", TweetController, :show
+
+    get "/searches/:search_id/tweets", TweetController, :index
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", TweetrackWeb do
   #   pipe_through :api
