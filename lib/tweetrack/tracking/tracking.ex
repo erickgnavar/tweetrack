@@ -6,7 +6,7 @@ defmodule Tweetrack.Tracking do
   import Ecto.Query, warn: false
   alias Tweetrack.Repo
 
-  alias Tweetrack.Tracking.Search
+  alias Tweetrack.Tracking.{Search, Tweet}
 
   @doc """
   Returns the list of searches.
@@ -107,7 +107,7 @@ defmodule Tweetrack.Tracking do
   Start a process to read twitter stream api
   """
   def start_feed(%Search{} = search) do
-    pid = Tweetrack.Twitter.start_stream(search.keyword)
+    pid = Tweetrack.Twitter.start_stream(search)
     attrs = %{
       :status => "RUNNING",
       :pid => pid |> :erlang.pid_to_list |> to_string,
@@ -127,6 +127,13 @@ defmodule Tweetrack.Tracking do
       :finished_at => DateTime.utc_now |> DateTime.to_string
     }
     update_search(search, attrs)
+  end
+
+  @doc false
+  def create_tweet(attrs \\ %{}) do
+    %Tweet{}
+    |> Tweet.changeset(attrs)
+    |> Repo.insert()
   end
 
 end

@@ -20,7 +20,7 @@ defmodule Tweetrack.Mixfile do
   def application do
     [
       mod: {Tweetrack.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :extwitter, :timex]
     ]
   end
 
@@ -40,7 +40,9 @@ defmodule Tweetrack.Mixfile do
       {:phoenix_html, "~> 2.10"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.11"},
-      {:cowboy, "~> 1.0"}
+      {:cowboy, "~> 1.0"},
+      {:extwitter, "~> 0.9.0"},
+      {:timex, "~> 3.1"},
     ]
   end
 

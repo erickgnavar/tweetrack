@@ -5,7 +5,17 @@ To start your Phoenix server:
   * Install dependencies with `mix deps.get`
   * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
   * Install Node.js dependencies with `cd assets && npm install`
+  * Setup environment variables
   * Start Phoenix endpoint with `mix phx.server`
+  
+Environment variables
+
+```sh
+TWITTER_CONSUMER_KEY=""
+TWITTER_CONSUMER_SECRET=""
+TWITTER_ACCESS_TOKEN=""
+TWITTER_ACCESS_TOKEN_SECRET=""
+```
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 

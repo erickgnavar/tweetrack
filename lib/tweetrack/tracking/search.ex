@@ -1,7 +1,7 @@
 defmodule Tweetrack.Tracking.Search do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Tweetrack.Tracking.Search
+  alias Tweetrack.Tracking.{Search, Tweet}
 
 
   schema "searches" do
@@ -10,6 +10,8 @@ defmodule Tweetrack.Tracking.Search do
     field :status, :string
     field :started_at, :naive_datetime
     field :finished_at, :naive_datetime
+
+    has_many :tweets, Tweet
 
     timestamps()
   end
