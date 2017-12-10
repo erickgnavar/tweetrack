@@ -21,3 +21,10 @@
 
 <span><%= link "Edit", to: search_path(@conn, :edit, @search) %></span>
 <span><%= link "Back", to: search_path(@conn, :index) %></span>
+
+<%= if @search.status == "PENDING" do %>
+  <%= link "Start", to: search_path(@conn, :start, @search), class: "btn btn-default btn-xs" %>
+<% end %>
+<%= if @search.status == "RUNNING" do %>
+  <%= link "Finish", to: search_path(@conn, :finish, @search), class: "btn btn-default btn-xs" %>
+<% end %>
