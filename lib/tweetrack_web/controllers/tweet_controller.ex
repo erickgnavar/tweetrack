@@ -2,7 +2,6 @@ defmodule TweetrackWeb.TweetController do
   use TweetrackWeb, :controller
 
   alias Tweetrack.Tracking
-  alias Tweetrack.Tracking.Tweet
 
   action_fallback TweetrackWeb.FallbackController
 
