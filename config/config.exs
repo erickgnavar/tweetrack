@@ -12,7 +12,7 @@ config :tweetrack,
 # Configures the endpoint
 config :tweetrack, TweetrackWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "VPBxDe5CPkNzKJa8Lc7PbnUUdXrN9GjpRJtbC5EkjZTafK8DLh6ptFTFL1Mk4oMw",
+  secret_key_base: System.get_env("SECRET_KEY"),
   render_errors: [view: TweetrackWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Tweetrack.PubSub,
            adapter: Phoenix.PubSub.PG2]
