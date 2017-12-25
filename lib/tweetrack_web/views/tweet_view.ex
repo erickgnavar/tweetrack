@@ -19,6 +19,7 @@ defmodule TweetrackWeb.TweetView do
       latitude: tweet.latitude,
       longitude: tweet.longitude,
       tweeted_at: tweet.tweeted_at,
+      profile_image_url: tweet.profile_image_url,
     }
   end
 end
