@@ -8,6 +8,8 @@ defmodule Tweetrack.Tracking do
 
   alias Tweetrack.Tracking.{Search, Tweet}
 
+  require Logger
+
   @doc """
   Returns the list of searches.
 
@@ -19,6 +21,13 @@ defmodule Tweetrack.Tracking do
   """
   def list_searches do
     Repo.all(Search)
+  end
+
+  @doc false
+  def list_running_searches do
+    Search
+    |> where(status: "RUNNING")
+    |> Repo.all
   end
 
   @doc """
@@ -114,6 +123,22 @@ defmodule Tweetrack.Tracking do
       :started_at => DateTime.utc_now |> DateTime.to_string
     }
     update_search(search, attrs)
+  end
+
+  @doc """
+  Restart a process to read twitter stream api,
+  a process may be dead because a timeout error by the twitter api
+  """
+  def restart_feed(%Search{} = search) do
+    pid = search.pid |> to_charlist |> :erlang.list_to_pid
+    if not Process.alive? pid do
+      Logger.info "Search #{search.keyword} restarted!"
+      pid = Tweetrack.Twitter.start_stream(search)
+      attrs = %{
+        :pid => pid |> :erlang.pid_to_list |> to_string,
+      }
+      update_search(search, attrs)
+    end
   end
 
   def finish_feed(%Search{} = search) do
