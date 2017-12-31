@@ -11,6 +11,7 @@ To start your Phoenix server:
 Environment variables
 
 ```sh
+SECRET_KEY=""
 TWITTER_CONSUMER_KEY=""
 TWITTER_CONSUMER_SECRET=""
 TWITTER_ACCESS_TOKEN=""
