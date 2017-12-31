@@ -16,10 +16,10 @@
     <tr>
       <td><%= search.keyword %></td>
       <td><%= search.status %></td>
-      <td><%= search.started_at %></td>
-      <td><%= search.finished_at %></td>
+      <td><%= format_date(search.started_at) %></td>
+      <td><%= format_date(search.finished_at) %></td>
 
-      <td class="text-right">
+      <td class="text-center">
         <div class="btn-group">
           <%= link "Show", to: search_path(@conn, :show, search), class: "btn btn-default btn-xs" %>
           <%= link "Edit", to: search_path(@conn, :edit, search), class: "btn btn-default btn-xs" %>
