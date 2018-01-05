@@ -19,3 +19,17 @@ import "phoenix_html"
 // paths "./socket" or full ones "web/static/js/socket".
 
 // import socket from "./socket"
+
+// TODO: find a better way to call custom js code
+
+const attrs = document.querySelector('#attrs').dataset
+
+if (attrs !== null) {
+  const path = attrs.path
+  const module = attrs.module
+  const func = attrs.func
+
+  if (path !== undefined && module !== undefined && func !== undefined) {
+    require(path)[module][func]()
+  }
+}
