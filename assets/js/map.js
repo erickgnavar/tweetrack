@@ -3,6 +3,7 @@ import L from "leaflet"
 export const TweetsMap = {
   run: () => {
     const attrs = document.querySelector('#attrs')
+    const module = TweetsMap
 
     fetch(`/api/v1/searches/${attrs.dataset.searchId}/tweets/`)
       .then(response => response.json())
@@ -15,8 +16,18 @@ export const TweetsMap = {
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
-    let renderTweet = t => {
-      return `
+    let loadMarkers = (tweets) => {
+      tweets.filter(t => t.latitude !== null)
+        .forEach(t => {
+          let marker = L.marker([t.latitude, t.longitude])
+          marker.addTo(map)
+          marker.bindPopup(module.renderTweet(t))
+        })
+    }
+  },
+
+  renderTweet: t => {
+    return `
   ${t.text.replace('\n', '<br>')}
   <br>
   <br>
@@ -24,16 +35,5 @@ export const TweetsMap = {
   <br>
   <img src="${t.profile_image_url}" widht="50px" height="50px" />
   `
-    }
-
-    let loadMarkers = (tweets) => {
-      tweets.filter(t => t.latitude !== null)
-        .forEach(t => {
-          let marker = L.marker([t.latitude, t.longitude])
-          marker.addTo(map)
-          marker.bindPopup(renderTweet(t))
-        })
-    }
-
   }
 }
