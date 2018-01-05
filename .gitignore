@@ -28,3 +28,5 @@ npm-debug.log
 
 # Used to load environment variables in dev
 .envrc
+
+.DS_Store
