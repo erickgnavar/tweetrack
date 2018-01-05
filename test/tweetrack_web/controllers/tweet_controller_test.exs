@@ -10,10 +10,6 @@ defmodule TweetrackWeb.TweetControllerTest do
   end
 
   describe "index" do
-    test "lists all tweet", %{conn: conn} do
-      conn = get conn, tweet_path(conn, :index)
-      assert json_response(conn, 200)["data"] == []
-    end
 
     test "lists all tweet by search_id", %{conn: conn} do
       {:ok, search} = Tracking.create_search(%{keyword: "test"})

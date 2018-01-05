@@ -10,11 +10,6 @@ defmodule TweetrackWeb.TweetController do
     render(conn, "index.json", tweet: tweet)
   end
 
-  def index(conn, _params) do
-    tweet = Tracking.list_tweet()
-    render(conn, "index.json", tweet: tweet)
-  end
-
   def show(conn, %{"id" => id}) do
     tweet = Tracking.get_tweet!(id)
     render(conn, "show.json", tweet: tweet)
