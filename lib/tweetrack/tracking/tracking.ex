@@ -198,9 +198,16 @@ defmodule Tweetrack.Tracking do
 
   """
   def create_tweet(attrs \\ %{}) do
-    %Tweet{}
+    {res, data} = %Tweet{}
     |> Tweet.changeset(attrs)
     |> Repo.insert()
+    case res do
+      :ok ->
+        payload = TweetrackWeb.TweetView.render("show.json", %{tweet: data})
+        TweetrackWeb.Endpoint.broadcast("search:#{data.search_id}", "new_tweet", payload)
+      _ ->
+    end
+    {res, data}
   end
 
 end

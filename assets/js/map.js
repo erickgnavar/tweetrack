@@ -1,4 +1,5 @@
 import L from "leaflet"
+import socket from "./socket"
 
 export const TweetsMap = {
   run: () => {
@@ -19,11 +20,11 @@ export const TweetsMap = {
     let loadMarkers = (tweets) => {
       tweets.filter(t => t.latitude !== null)
         .forEach(t => {
-          let marker = L.marker([t.latitude, t.longitude])
-          marker.addTo(map)
-          marker.bindPopup(module.renderTweet(t))
+          module.putMarker(t, map)
         })
     }
+
+    module.handleSocket(attrs.dataset.searchId, map)
   },
 
   renderTweet: t => {
@@ -35,5 +36,28 @@ export const TweetsMap = {
   <br>
   <img src="${t.profile_image_url}" widht="50px" height="50px" />
   `
+  },
+
+  putMarker: (tweet, map) => {
+    const module = TweetsMap
+    let marker = L.marker([tweet.latitude, tweet.longitude])
+
+    marker.addTo(map)
+    marker.bindPopup(module.renderTweet(tweet))
+  },
+
+  handleSocket: (id, map) => {
+    let channel = socket.channel(`search:${id}`, {})
+    const module = TweetsMap
+
+    channel.join()
+      .receive('ok', resp => { console.log('Joined successfully', resp) })
+      .receive('error', resp => { console.log('Unable to join', resp) })
+
+    channel.on('new_tweet', payload => {
+      if (payload.data.latitude !== null) {
+        module.putMarker(payload.data, map)
+      }
+    })
   }
 }

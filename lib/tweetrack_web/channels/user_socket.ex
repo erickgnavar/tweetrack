@@ -2,7 +2,7 @@ defmodule TweetrackWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", TweetrackWeb.RoomChannel
+  channel "search:*", TweetrackWeb.SearchChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
